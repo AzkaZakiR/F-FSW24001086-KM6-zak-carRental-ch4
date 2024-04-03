@@ -4,8 +4,27 @@ const getCar = async (req, res) => {
     try {
         const car = await Car.findAll();
 
-        res.render("customers/index.ejs", {
-            customers,
+        // res.render("customers/index.ejs", {
+        //     customers,
+        //     message: req.flash("message", ""),
+        // });
+        res.status(200).json({
+            status: "success",
+            dataLength: car.length,
+            data: car
+        })
+    } catch (err) {
+        res.render("error.ejs", {
+            message: err.message,
+        });
+    }
+};
+const carPage = async (req, res) => {
+    try {
+        const cars = await Car.findAll();
+
+        res.render("cars/car.ejs", {
+            cars,
             message: req.flash("message", ""),
         });
     } catch (err) {
@@ -14,6 +33,7 @@ const getCar = async (req, res) => {
         });
     }
 };
+
 
 const createCustomerPage = async (req, res) => {
     try {
@@ -59,15 +79,19 @@ const editCustomerPage = async (req, res) => {
     }
 };
 
-const editCustomer = async (req, res) => {
+const editCar = async (req, res) => {
     try {
-        await Customer.update(req.body, {
+        await Car.update(req.body, {
             where: {
                 id: req.params.id,
             },
         });
-        req.flash("message", "Diedit");
-        res.redirect("/customers");
+        res.status(200).json({
+            status: "success",
+            message: "Car successfully updated"
+        })
+        // req.flash("message", "Diedit");
+        // res.redirect("/customers");
     } catch (err) {
         res.render("error.ejs", {
             message: err.message,
@@ -75,15 +99,19 @@ const editCustomer = async (req, res) => {
     }
 };
 
-const deleteCustomer = async (req, res) => {
+const deleteCar = async (req, res) => {
     try {
-        await Customer.destroy({
+        await Car.destroy({
             where: {
                 id: req.params.id,
             },
         });
 
-        res.redirect("/customers");
+        res.status(200).json({
+            status: "success",
+            message: "Car deleted"
+        })
+        // res.redirect("/customers");
     } catch (err) {
         res.render("error.ejs", {
             message: err.message,
@@ -92,9 +120,11 @@ const deleteCustomer = async (req, res) => {
 };
 
 module.exports = {
+    getCar,
+    carPage,
     createCustomerPage,
     createCar,
     editCustomerPage,
-    editCustomer,
-    deleteCustomer,
+    editCar,
+    deleteCar,
 };

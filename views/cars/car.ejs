@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+   </head>
+   <body>
+      <h1>INI CAR</h1>
+      <h4>INI ROUTES CAR</h4>
+      <h5>peta</h5>
+
+      <% if (message != "") { %>
+      <div class="alert">Data berhasil <%= message %></div>
+      <% } %>
+
+      <table>
+         <th>id</th>
+         <th>plate</th>
+         <th>manufacturer</th>
+         <th>model</th>
+         <th>capacity</th>
+         <th>createdAt</th>
+         <th>action</th>
+         <% cars.map((car) => { %>
+         <tr>
+            <td><%= car.id %></td>
+            <td><%= car.plate %></td>
+            <td><%= car.manufacturer %></td>
+            <td><%= car.model %></td>
+            <td><%= car.capacity %></td>
+            <td><%= car.createdAt %></td>
+            <td>
+               <a href="/customers/edit/<%= car.id %>">
+                  <button>Edit</button>
+               </a>
+               <form action="/customers/admin/delete/<%= car.id %>" method="POST">
+                  <button>Delete</button>
+               </form>
+            </td>
+         </tr>
+         <% }) %>
+      </table>
+      <a href="/customers/create">
+         <button>tambah customer baru</button>
+      </a>
+   </body>
+</html>
